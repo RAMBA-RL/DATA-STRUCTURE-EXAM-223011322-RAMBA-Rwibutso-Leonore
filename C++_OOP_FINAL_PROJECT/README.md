@@ -38,5 +38,7 @@ An array of PayCalcBase* is created to demonstrate polymorphic calculation using
 1.5. Array Resizing:
 
 The addComponent and removeComponent methods in EmployeePayComponents demonstrate dynamic resizing.
+
 Annotated Code
+
 The code in Employee_pay_calculator.cpp is thoroughly annotated with comments explaining the purpose of each line or block.
