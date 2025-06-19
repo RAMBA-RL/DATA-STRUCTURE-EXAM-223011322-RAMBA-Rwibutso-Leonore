@@ -21,28 +21,35 @@ How the Program Works
    
 The program prompts the user to:
 •	Enter the number of pay components
+
 •	Provide description and amount for each component
 
 2. Dynamic Memory Allocation
 
 •	Creates a dynamic array of PayComponent structures
+
 •	Allocates memory based on user-specified component count
 
 3. Polymorphic Calculation
    
 •	Creates two different calculator objects stored in base class pointers
+
 •	Uses virtual function dispatch to call appropriate calculation methods
 
 4. Results Display
    
 •	Shows results from both calculation methods: 
+
 o	Fixed pay (sum of all components)
+
 o	Commission pay (sum + 10% commission)
 
 Code Structure and Annotations
 
 Key Components
+
 PayComponent Structure
+
 struct PayComponent {
     char desc[30];   // Description of pay component (max 29 chars + null terminator)
     float amount;    // Monetary amount for this component
