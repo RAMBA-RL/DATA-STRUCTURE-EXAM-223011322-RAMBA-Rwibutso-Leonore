@@ -16,6 +16,7 @@ Implement addComponent(PayComponent) and removeComponent(int index) by resizing 
 Fully annotate code with comments and include screenshots of all resulting outputs.
 
 How I Completed the Project 
+
 1.1. Dynamic Arrays:
 
 The PayComponent struct is used to store each pay item.
