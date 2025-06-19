@@ -1,5 +1,7 @@
 Employee Pay Calculator
+
 Project Description
+
 This project is my implementation of a C++ employee pay calculator that demonstrates dynamic arrays, class inheritance, polymorphism, pointer arithmetic, and array resizing. The program allows users to enter different pay components for an employee and calculates total pay using both fixed and commission-based strategies. All code is fully commented for clarity 
 
 Project Requirements
