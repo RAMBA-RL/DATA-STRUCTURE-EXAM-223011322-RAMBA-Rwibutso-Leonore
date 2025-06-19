@@ -1,60 +1,81 @@
-Employee Pay Calculator
+Employee Pay Calculator Project
 
 Project Description
 
-This project is my implementation of a C++ employee pay calculator that demonstrates dynamic arrays, class inheritance, polymorphism, pointer arithmetic, and array resizing. The program allows users to enter different pay components for an employee and calculates total pay using both fixed and commission-based strategies. All code is fully commented for clarity 
+This project is my implementation of a C++ employee pay calculator. It shows dynamic arrays, class inheritance, polymorphism, pointer arithmetic, and resizing arrays. The program lets users enter different pay components for an employee and calculates total pay using both fixed and commission-based strategies. All code is fully commented for clarity.
 
 Project Requirements
 
-The assignment required implementing the following features:
+The requirements were:
 
-1.	PayComponent Structure: Define a struct to store each pay component (description and amount) and allocate a dynamic array of these for each employee
-2.	Abstract Base Class: Create PayCalcBase with a pure virtual compute method
-3.	Inheritance & Polymorphism: Derive FixedPayCalc and CommissionPayCalc classes from PayCalcBase
-4.	Dynamic Calculator Array: Store pointers to calculator objects in a dynamic array (PayCalcBase* calculators) and use polymorphic calls
-5.	Pointer Arithmetic: Use pointer arithmetic to sum amounts and apply commissions in calculators
-6.	Dynamic Array Operations: Implement addComponent(PayComponent) and removeComponent(int index) with array resizing
-
-How the Program Works
-
-1. User Input Phase
+1.	Define a struct PayComponent to store each pay component (description and amount) and allocate a dynamic array of these for each employee
    
-The program prompts the user to:
-•	Enter the number of pay components
-
-•	Provide description and amount for each component
-
-2. Dynamic Memory Allocation
-
-•	Creates a dynamic array of PayComponent structures
-
-•	Allocates memory based on user-specified component count
-
-3. Polymorphic Calculation
+2.	Create an abstract base class PayCalcBase with a pure virtual compute method
    
-•	Creates two different calculator objects stored in base class pointers
-
-•	Uses virtual function dispatch to call appropriate calculation methods
-
-4. Results Display
+3.	Derive two classes (FixedPayCalc and CommissionPayCalc) from PayCalcBase to demonstrate inheritance and polymorphism
    
-•	Shows results from both calculation methods: 
+4.	Store pointers to calculator objects in a dynamic array (PayCalcBase* calculators) and use polymorphic calls to compute pay
+   
+5.	Use pointer arithmetic to sum amounts in the calculators and to apply commissions
+   
+6.	Implement addComponent(PayComponent) and removeComponent(int index) by resizing the dynamic array of pay components
+   
 
-o	Fixed pay (sum of all components)
+How I Completed the Project
 
-o	Commission pay (sum + 10% commission)
+1. Dynamic Arrays
+   
+•	The PayComponent struct is used to store each pay item
 
-Code Structure and Annotations
+•	A dynamic array of PayComponent is created based on user input
 
-Key Components
+•	Memory is allocated and freed properly
+
+2. Inheritance & Polymorphism
+   
+•	An abstract base class PayCalcBase defines the compute interface
+
+•	FixedPayCalc and CommissionPayCalc derive from it and implement their own logic
+
+•	Both classes override the pure virtual compute function
+
+3. Dynamic Calculator Array
+   
+•	An array of PayCalcBase is created to demonstrate polymorphic calculation
+
+•	Different calculator strategies are stored in the same array
+
+•	Virtual function calls work through base class pointers
+
+4. Pointer Arithmetic
+   
+•	All calculations in compute functions use pointer arithmetic instead of array indexing
+
+•	The code uses const PayComponent* ptr = comps and increments the pointer with ++ptr
+
+•	This shows how to access array elements through pointer movement
+
+5. Memory Management
+   
+•	Dynamic memory allocation using new operator
+
+•	Proper cleanup using delete and delete[]
+
+•	All allocated memory is freed before program ends
+
+Code Structure Explanation
 
 PayComponent Structure
 
 struct PayComponent {
-    char desc[30];   // Description of pay component (max 29 chars + null terminator)
+
+    char desc[30];   // Stores description of pay item (like "Salary" or "Bonus")
     
-    float amount;    // Monetary amount for this component
+    float amount;    // Stores the money amount for this pay item
 };
+
+This simple structure holds information about each part of an employee's pay.
+
 Abstract Base Class
 
 class PayCalcBase {
@@ -63,37 +84,77 @@ public:
 
     virtual float compute(const PayComponent*, int) = 0;  // Pure virtual function
     
-    virtual ~PayCalcBase() {}  // Virtual destructor for proper cleanup
+    virtual ~PayCalcBase() {}  // Virtual destructor for safe cleanup
 };
-Derived Calculator Classes
+
+This is the parent class that defines what all pay calculators must do. The = 0 makes it abstract, so you cannot create 
+
+objects of this class directly.
+
+Fixed Pay Calculator
 
 class FixedPayCalc : public PayCalcBase {
 
-    // Sums all pay components using pointer arithmetic
+public:
+
+    float compute(const PayComponent* comps, int n) override {
+    
+        float sum = 0;
+        
+        const PayComponent* ptr = comps;  // Start pointer at beginning of array
+        
+        for (int i = 0; i < n; ++i, ++ptr)  // Move pointer through array
+        
+            sum += ptr->amount;  // Add each amount to total
+            
+        return sum;
+    }
 };
+
+This calculator simply adds up all the pay components. It uses pointer arithmetic (++ptr) instead of array indexing 
+
+(comps[i]).
+
+Commission Pay Calculator
 
 class CommissionPayCalc : public PayCalcBase {
 
-    // Sums components and adds commission percentage
+    float commission_rate_;  // Stores commission percentage
+    
+public:
+
+    CommissionPayCalc(float rate = 0.10f) : commission_rate_(rate) {}
+    
+    float compute(const PayComponent* comps, int n) override {
+    
+        float sum = 0;
+        
+        const PayComponent* ptr = comps;  // Start pointer at beginning
+        
+        for (int i = 0; i < n; ++i, ++ptr)  // Move through array with pointer
+        
+            sum += ptr->amount;  // Add each amount
+            
+        return sum + sum * commission_rate_;  // Add commission to total
+    }
 };
-Pointer Arithmetic Implementation
 
-The code uses pointer arithmetic instead of array indexing:
+This calculator adds up all components and then adds a commission percentage on top.
 
-const PayComponent* ptr = comps;  // Initialize pointer to array start
-
-for (int i = 0; i < n; ++i, ++ptr)  // Increment pointer each iteration
-
-    sum += ptr->amount;  // Access amount through pointer
-Polymorphic Dispatch
+Polymorphic Array Usage
 
 PayCalcBase* calculators[2];  // Array of base class pointers
 
-calculators[0] = new FixedPayCalc();
+calculators[0] = new FixedPayCalc();  // First calculator type
 
-calculators[1] = new CommissionPayCalc(0.10f);
+calculators[1] = new CommissionPayCalc(0.10f);  // Second calculator type
 
-// Polymorphic function calls
+// Use polymorphism to call correct compute method
 
-calculators[i]->compute(comps, n_components);
+for (int i = 0; i < 2; ++i) {
+
+    float result = calculators[i]->compute(comps, n_components);
+    
+    // Each calculator runs its own version of compute()
+}
 
