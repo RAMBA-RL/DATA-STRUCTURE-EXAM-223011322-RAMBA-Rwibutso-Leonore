@@ -2,7 +2,9 @@
 
 PROJECT DESCRIPTION 
 
-This project is my implementation of a C++ employee pay calculator. It shows dynamic arrays, class inheritance, polymorphism, pointer arithmetic, and resizing arrays. The program lets users enter different pay components for an employee and calculates total pay using both fixed and commission-based strategies. All code is fully commented for clarity. The requirements were:
+This project is my implementation of a C++ employee pay calculator. It shows dynamic arrays, class inheritance, polymorphism, pointer arithmetic, and resizing arrays. The program lets users enter different pay components for an employee and calculates total pay using both fixed and commission-based strategies. All code is fully commented for clarity.
+
+The requirements were:
 
 Define a struct PayComponent to store each pay component (description and amount) and allocate a dynamic array of these for each employee.
 Create an abstract base class PayCalcBase with a pure virtual compute method.
