@@ -52,32 +52,48 @@ PayComponent Structure
 
 struct PayComponent {
     char desc[30];   // Description of pay component (max 29 chars + null terminator)
+    
     float amount;    // Monetary amount for this component
 };
 Abstract Base Class
+
 class PayCalcBase {
+
 public:
+
     virtual float compute(const PayComponent*, int) = 0;  // Pure virtual function
+    
     virtual ~PayCalcBase() {}  // Virtual destructor for proper cleanup
 };
 Derived Calculator Classes
+
 class FixedPayCalc : public PayCalcBase {
+
     // Sums all pay components using pointer arithmetic
 };
 
 class CommissionPayCalc : public PayCalcBase {
+
     // Sums components and adds commission percentage
 };
 Pointer Arithmetic Implementation
+
 The code uses pointer arithmetic instead of array indexing:
+
 const PayComponent* ptr = comps;  // Initialize pointer to array start
+
 for (int i = 0; i < n; ++i, ++ptr)  // Increment pointer each iteration
+
     sum += ptr->amount;  // Access amount through pointer
 Polymorphic Dispatch
+
 PayCalcBase* calculators[2];  // Array of base class pointers
+
 calculators[0] = new FixedPayCalc();
+
 calculators[1] = new CommissionPayCalc(0.10f);
 
 // Polymorphic function calls
+
 calculators[i]->compute(comps, n_components);
 
